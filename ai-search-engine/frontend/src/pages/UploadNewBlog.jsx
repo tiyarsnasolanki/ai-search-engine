@@ -1,7 +1,7 @@
 
 
 import React, { useState, useRef } from 'react';
-import Navbar2 from '../components/ Navbar2';
+import Navbar2 from '../components/Navbar2';
 import uploadIMG from '../images/Upload-PNG-Image-File.png';
 import rightImg from "../images/upload.png";
 import '../App.css';
