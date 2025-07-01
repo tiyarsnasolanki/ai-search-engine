@@ -40,8 +40,7 @@ import UploadNewBlog from './pages/UploadNewBlog';
 import BlogDetails from './pages/BlogDetails';
 import Blog from './pages/Blog';  
 import AuthProvider, { AuthContext } from "./context/AuthContext"; 
-import Navbar from "./componennts/Navbar"; // Import Navbar
-
+import Navbar from "./components/Navbar";
 const ProtectedRoute = ({ element }) => {
   const { user } = useContext(AuthContext);  
   return user ? element : <Navigate to="/login" replace />;

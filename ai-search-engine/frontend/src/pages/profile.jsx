@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from '../componennts/Navbar'; // Ensure this path is correct
+import Navbar from '../components/Navbar'; // Ensure this path is correct
 import profileImg from '../images/profile.png'; // Placeholder profile image
 
 const Profile = () => {
