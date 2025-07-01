@@ -211,7 +211,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"; // Make sure this path is correct
 import "./BlogCss.css";
-import Navbar2 from "../components/navbar2";
+import Navbar2 from "../components/Navbar2";
 
 const BlogDetails = () => {
   const { id } = useParams();
