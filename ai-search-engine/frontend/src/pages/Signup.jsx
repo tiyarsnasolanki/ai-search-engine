@@ -13,7 +13,7 @@ const Signup = () => {
     
     const userData = { username, name, email, password: pwd };
     try {
-      const response = await fetch("http://localhost:3000/api/users/signUp", {
+      const response = await fetch("https://ai-backend-rt35.onrender/api/users/signUp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

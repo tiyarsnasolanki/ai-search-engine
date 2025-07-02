@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
       }
   
       try {
-        const res = await fetch('https://ai-backend-rt35.onrender.com//api/users/me', {
+        const res = await fetch('https://ai-backend-rt35.onrender/api/users/me', {
           headers: { 
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` 

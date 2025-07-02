@@ -10,12 +10,15 @@ const indexRoutes = require("./routes/indexRoutes");
 dotenv.config();
 const app = express();
 
-// Configure CORS with specific options
+// ✅ Configure CORS to allow BOTH localhost and Vercel
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow requests from your frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow specific methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-  credentials: true // Allow credentials (cookies, authorization headers, etc.)
+  origin: [
+    'http://localhost:5173',
+    'https://ai-search-engine-8w9s-kx4535plp-tiyarsnasolankis-projects.vercel.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 // Increase the JSON payload limit to 10MB
@@ -24,7 +27,7 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 connectDB();
 
-//route prefixes
+// Route prefixes
 app.use("/api/ai-content", aiContentRoutes);  
 app.use("/api/users", indexRoutes); 
 
