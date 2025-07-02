@@ -128,7 +128,7 @@ const Navbar2 = ({ onSearch }) => {
           <div className="flex items-center space-x-3">
             <button
               className="hidden md:block px-4 py-2 rounded-lg border border-white hover:bg-white hover:text-purple-600 transition duration-300"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/Signup")}
             >
               Register
             </button>

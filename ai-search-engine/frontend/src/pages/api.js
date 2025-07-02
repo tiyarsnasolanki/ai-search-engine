@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const baseURL = import.meta.env.PROD 
   ? 'http://bananasit.com/aisearch/api'
-  : 'http://localhost:5000/api';
+  : 'http://https://ai-backend-rt35.onrender.com/api';
 
 const api = axios.create({
   baseURL,

@@ -14,7 +14,7 @@ const Login = () => {
   const submit = async (e) => {
   e.preventDefault();
   try {
-    const res = await fetch('http://localhost:3000/api/users/login', {
+    const res = await fetch('https://ai-backend-rt35.onrender.com/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password: pwd }),

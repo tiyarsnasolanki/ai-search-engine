@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Blog from './Blog';
  import Navbar from '../components/Navbar';
-//import Navbar2 from '../componennts/navbar2';
+//import Navbar2 from '../components/Navbar2';
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
 

@@ -1,1 +1,1 @@
-export const api_base_url = "http://localhost:3000";
+export const api_base_url = "https://ai-backend-rt35.onrender.com";
