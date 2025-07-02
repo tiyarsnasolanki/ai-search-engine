@@ -199,7 +199,7 @@ const Navbar2 = ({ onSearch }) => {
                     <button
                       className="border border-white text-white px-3 py-1 rounded text-sm"
                       onClick={() => {
-                        navigate("/register");
+                        navigate("/signup");
                         setMobileMenuOpen(false);
                       }}
                     >
