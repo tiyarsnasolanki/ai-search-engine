@@ -1,18 +1,43 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.PROD 
-  ? 'http://bananasit.com/aisearch/api'
-  : 'http://https://ai-backend-rt35.onrender.com/api';
-
+// Use VITE_ env var, properly exposed by Vite
 const api = axios.create({
-  baseURL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 export const signup = async (data) => {
   try {
-    const response = await api.post('/signup', data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
+    const res = await api.post('/users/signup', data);
+    return res.data;
+  } catch (err) {
+    console.error('Signup error:', err?.response?.data || err.message);
+    throw err;
   }
 };
+
+export const login = async (data) => {
+  try {
+    const res = await api.post('/users/login', data);
+    return res.data;
+  } catch (err) {
+    console.error('Login error:', err?.response?.data || err.message);
+    throw err;
+  }
+};
+
+export const getCurrentUser = async (token) => {
+  try {
+    const res = await api.get('/users/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (err) {
+    console.error('Fetch current user error:', err?.response?.data || err.message);
+    throw err;
+  }
+};
+
+export default api;
