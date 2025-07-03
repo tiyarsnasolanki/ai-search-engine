@@ -19,7 +19,7 @@ const Blog = ({ searchQuery }) => {
     const fetchBlogs = async () => {
       try {
         console.log("Fetching blogs from API...");
-        const response = await axios.get(`${api_base_url}/api/ai-content`);
+        const response = await axios.get(`https://ai-backend-rt35.onrender.com/api/ai-content`);
         console.log("API Response - First item:", response.data[0]); // Debug: Log the first blog object
         setBlogs(response.data);
         setFilteredBlogs(response.data);
