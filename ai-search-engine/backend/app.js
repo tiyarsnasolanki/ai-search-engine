@@ -11,7 +11,7 @@ const app = express();
 
 // ✅ Dynamic CORS whitelist
 const allowedOrigins = [
-  'http://localhost:5173',
+  //'http://localhost:5173',
   'https://ai-search-engine-8w9s-kx4535plp-tiyarsnasolankis-projects.vercel.app',
   'https://ai-search-engine-hwdi.vercel.app'
 ];
