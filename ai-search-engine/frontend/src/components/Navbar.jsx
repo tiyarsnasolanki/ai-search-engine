@@ -193,7 +193,7 @@ const Navbar2 = ({ onSearch }) => {
   );
 };
 
-export default Navbar;
+export default Navbar2;
 
 
 
