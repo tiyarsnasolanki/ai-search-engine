@@ -1,5 +1,4 @@
-
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
 import logo from "../images/bn.png";
@@ -12,24 +11,22 @@ const Navbar2 = ({ onSearch }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     localStorage.removeItem("token");
     setUser(null);
     setShowLogout(false);
     navigate("/login");
-  };
+  }, [setUser, navigate]);
 
-  const handleSearch = (e) => {
+  const handleSearch = useCallback((e) => {
     const query = e.target.value;
     setSearchQuery(query);
     onSearch(query);
-  };
+  }, [onSearch]);
 
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Submit AI Tool", path: "/UploadNewBlog" },
-    // { name: "About", path: "/about" },
-    // { name: "Contact", path: "/contact" },
   ];
 
   return (
@@ -66,7 +63,7 @@ const Navbar2 = ({ onSearch }) => {
             placeholder="Search..."
             className="w-full py-2 px-4 rounded-full bg-white bg-opacity-20 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-white placeholder-opacity-70"
           />
-          <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
+          <button className="absolute right-3 top-1/2 transform -translate-y-1/2" aria-label="Search">
             <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path>
             </svg>
@@ -75,14 +72,7 @@ const Navbar2 = ({ onSearch }) => {
       </div> 
 
       <div className="flex items-center space-x-6">
-        {/* Notification icon */}
-        {/* <div className="hidden md:block relative cursor-pointer">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-          </svg>
-          <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs flex items-center justify-center">3</span>
-        </div> */}
-
+        {/* User Info / Avatar */}
         {user ? (
           <div className="relative">
             <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setShowLogout(!showLogout)}>
@@ -103,18 +93,6 @@ const Navbar2 = ({ onSearch }) => {
                   <div className="px-4 font-medium text-gray-800">{user.name}</div>
                   <div className="px-4 text-sm text-gray-500">{user.email}</div>
                 </div>
-                {/* <button
-                  onClick={() => navigate("/profile")}
-                  className="w-full px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
-                >
-                  Profile
-                </button> */}
-                {/* <button
-                  onClick={() => navigate("/settings")}
-                  className="w-full px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
-                >
-                  Settings
-                </button> */}
                 <button
                   onClick={handleLogout}
                   className="w-full px-4 py-2 text-red-500 hover:bg-red-50 rounded-b-lg text-left border-t border-gray-200"
@@ -148,6 +126,7 @@ const Navbar2 = ({ onSearch }) => {
         <button 
           className="md:hidden flex items-center"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle Mobile Menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
@@ -174,17 +153,15 @@ const Navbar2 = ({ onSearch }) => {
             <div className="pt-4 pb-3 border-t border-blue-700">
               <div className="flex items-center px-3">
                 {user ? (
-                  <>
-                    <div className="ml-3">
-                      <div className="text-base font-medium">{user.name}</div>
-                      <button
-                        onClick={handleLogout}
-                        className="mt-2 w-full text-sm text-white bg-red-500 px-3 py-1 rounded"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  </>
+                  <div className="ml-3">
+                    <div className="text-base font-medium">{user.name}</div>
+                    <button
+                      onClick={handleLogout}
+                      className="mt-2 w-full text-sm text-white bg-red-500 px-3 py-1 rounded"
+                    >
+                      Logout
+                    </button>
+                  </div>
                 ) : (
                   <div className="flex space-x-2">
                     <button
