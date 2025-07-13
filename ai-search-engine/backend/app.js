@@ -8,33 +8,32 @@ require('dotenv').config();
 
 const app = express();
 
-// ✅ Dynamic Allowed frontend origins based on environment
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://ai-search-engine-gules.vercel.app'] // Production Frontend URL
-  : ['http://localhost:3000', 'https://ai-search-engine-sand.vercel.app']; // Localhost and dev URLs
+// ✅ Allowed frontend origins (include all trusted URLs)
+const allowedOrigins = [
+  'https://ai-search-engine-gules.vercel.app',
+  'https://ai-search-engine-sand.vercel.app',
+  'http://localhost:3000'
+];
 
 // ✅ CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or Postman)
+    // Allow no origin (e.g., curl, mobile apps) or allowed origins
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('CORS not allowed for origin ' + origin), false);
+      callback(new Error('CORS not allowed for origin: ' + origin));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Enable cookies for cross-origin requests
-  preflightContinue: false,
-  optionsSuccessStatus: 204, // For legacy browsers (IE11, etc.)
+  credentials: true,
+  optionsSuccessStatus: 204,
 };
 
-// ✅ Enable CORS for all routes
+// ✅ Enable CORS for all routes with custom options
 app.use(cors(corsOptions));
-
-// ✅ Preflight support (OPTIONS requests for preflight)
-app.options('*', cors());
+app.options('*', cors(corsOptions)); // Preflight requests support
 
 // ✅ Middleware to handle JSON and URL-encoded data
 app.use(bodyParser.json({ limit: '10mb' }));
@@ -47,27 +46,29 @@ connectDB();
 app.use('/api/ai-content', aiContentRoutes);
 app.use('/api/users', indexRoutes);
 
-// ✅ Health check route (to check if server is alive)
+// ✅ Health check route
 app.get('/', (req, res) => {
   res.send('Welcome to My API');
 });
 
-// ✅ Error Handling Middleware for CORS
+// ✅ Error handler for CORS errors
 app.use((err, req, res, next) => {
-  if (err.name === 'CorsError') {
+  if (err.message && err.message.includes('CORS')) {
     return res.status(403).json({ message: 'CORS error: Origin not allowed' });
   }
   next(err);
 });
 
-// ✅ General Error Handler for unexpected errors
+// ✅ General error handler
 app.use((err, req, res, next) => {
   console.error('Unexpected Error:', err.stack);
   res.status(500).json({ message: 'Something went wrong!', error: err.message });
 });
 
-// ✅ Start server
+// ✅ Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log('Allowed Origins:', allowedOrigins);
+  console.log('Environment:', process.env.NODE_ENV);
 });
