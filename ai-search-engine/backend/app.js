@@ -14,8 +14,9 @@ const allowedOrigins = [
 ];
 
 // ✅ CORS configuration
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -24,15 +25,18 @@ app.use(cors({
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-}));
+  credentials: true, // Enable cookies for cross-origin requests
+  preflightContinue: false, 
+  optionsSuccessStatus: 204 // For legacy browsers (IE11, etc.)
+};
 
-// ✅ Preflight support
+// ✅ Enable CORS for all routes
+app.use(cors(corsOptions));
+
+// ✅ Preflight support (OPTIONS requests for preflight)
 app.options('*', cors());
 
-// ✅ Middleware
+// ✅ Middleware to handle JSON and URL-encoded data
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
@@ -43,7 +47,7 @@ connectDB();
 app.use('/api/ai-content', aiContentRoutes);
 app.use('/api/users', indexRoutes);
 
-// ✅ Health check route
+// ✅ Health check route (to check if server is alive)
 app.get('/', (req, res) => {
   res.send('Welcome to My API');
 });

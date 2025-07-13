@@ -2,7 +2,7 @@ import React from 'react';
 
 const Nopage = () => {
   return (
-    <div>Navbadsdsdr</div>
+    <div>Navbads</div>
   );
 };
 
